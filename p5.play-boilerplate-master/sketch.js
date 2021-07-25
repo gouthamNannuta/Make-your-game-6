@@ -24,7 +24,7 @@ var failed,failedimg;
 var bulletGroup,thief1Group,thief2Group,thief3Group,thief4Group,thief5Group,thief6Group,thief7Group,thief8Group,thief9Group,thief10Group;
 var policeBullets=100;
 var thiefbar;
-var key,keyimg;
+var key,keyimg,keyback;
 var thiefslife=0;
 function preload(){
   policeimg2=loadImage("img/police.png");
@@ -37,11 +37,19 @@ rightBulletimg=loadImage("img/bullet right.png")
 failedimg=loadImage("img/failed1.png")
 gunShot=loadSound("sounds/shotgun.mp3");
 damage=loadSound("sounds/damagemale.mp3");
+wonsound=loadSound("sounds/mixkit-male-voice-cheer-2010.wav")
 keyimg=loadImage("img/key1.png")
 }
 
 function setup() {
   createCanvas(displayWidth,displayHeight-150);
+ key=createSprite(1700,700,50,50);
+ key.addImage(keyimg);
+ key.scale=0.1;  
+
+ keyback=createSprite(1700,700,50,50);
+ keyback.visible=false
+ 
  police= createSprite(300, 170, 30, 30);
  police.addImage(policeimg);
  police.scale=0.05;
@@ -246,9 +254,7 @@ thief10lifebar.shapeColor="red";
 policelifebar=createSprite(1650,38,policelife*2,20);
 policelifebar.shapeColor="red";
 
-key=createSprite(1700,700,50,50);
-key.addImage(keyimg);
-key.scale=0.1;  
+
 
 
 }
@@ -421,6 +427,11 @@ if(bulletGroup.isTouching(wall1) || bulletGroup.isTouching(wall2) || bulletGroup
  if(thief10Group.isTouching(wall1) || thief10Group.isTouching(wall2) || thief10Group.isTouching(wall3) || thief10Group.isTouching(wall4) || thief10Group.isTouching(wall5) || thief10Group.isTouching(wall6) || thief10Group.isTouching(wall7) || thief10Group.isTouching(wall8) || thief10Group.isTouching(wall9) || thief10Group.isTouching(wall10) || thief10Group.isTouching(wall11) || thief10Group.isTouching(wall12) || thief10Group.isTouching(wall13) || thief10Group.isTouching(wall14) || thief10Group.isTouching(wall15) || thief10Group.isTouching(wall16) || thief10Group.isTouching(wall17) || thief10Group.isTouching(wall18) || thief10Group.isTouching(wall19) || thief10Group.isTouching(wall20) || thief10Group.isTouching(wall21) || thief10Group.isTouching(wall22) || thief10Group.isTouching(wall23) || thief10Group.isTouching(wall24) || thief10Group.isTouching(wall25) || thief10Group.isTouching(wall26) || thief10Group.isTouching(wall27) || thief10Group.isTouching(wall28) || thief10Group.isTouching(wall29) || thief10Group.isTouching(wall30) || thief10Group.isTouching(wall31) || thief10Group.isTouching(wall32) || thief10Group.isTouching(wall33) || thief10Group.isTouching(wall34) || thief10Group.isTouching(wall35)){
   thief10Group.destroyEach();
  }
+ if (police.isTouching(keyback)){
+   policespeed=0;
+   wonsound.play()
+ }
+
  if(policelife>0){
  if(thief1Group.isTouching(police)){
    policelife-=20;
@@ -602,6 +613,7 @@ console.log(policeBullets);
 //console.log(police.y);
  drawSprites();
 
+
  if(thief1life>0){
   fill(255);
 textSize(15);
@@ -653,17 +665,24 @@ if(thief10life>0){
 textSize(15);
 text("thief6 Life :"+thief10life+"/200",thief10lifebar.x-60,thief10lifebar.y+5);
 }
-if(policelife>0){
+/*if(policelife>0){
   fill(255);
 textSize(20);
 text("Police Life :"+policelife+"/200",policelifebar.x-60,policelifebar.y+5);
 }
 if(policelife<=0){
-}
+}*/
+
 if(policelife>0){
   fill(255);
 textSize(20);
 text("police Life :"+policelife+"/200",policelifebar.x-75,45);
+}
+if (police.isTouching(keyback)){
+  background(0)
+  fill("yellow")
+  textSize(150)
+  text("You Won",displayWidth/2-250,displayHeight/2)
 }
 if(policelife===0){
   background(0); 
